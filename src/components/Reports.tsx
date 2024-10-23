@@ -49,17 +49,17 @@ const Reports: React.FC = () => {
         title = 'Inventory Report';
         data = [
           ['Name', 'Batch Number', 'Expiry Date', 'Price', 'Quantity'],
-          ['Paracetamol', 'BN123', '2025-01-01', '5.99', '100'],
-          ['Amoxicillin', 'BN456', '2024-05-01', '12.50', '50'],
+          ['Paracetamol', 'BN123', '2025-01-01', 'Tsh.5.99', '100'],
+          ['Amoxicillin', 'BN456', '2024-05-01', 'Tsh.12.50', '50'],
         ];
         break;
 
       case 'employee':
         title = 'Employee Collection Report';
         data = [
-          ['Employee Name', 'Number of Transactions', 'Date', 'Amount Collected'],
-          ['John Doe', '10', '2024-10-23', 'Tsh.250'],
-          ['Jane Smith', '5', '2024-10-22', 'Tsh.100'],
+          ['Employee Name', 'Designation', 'Number of Transactions', 'Date', 'Amount Collected'],
+          ['Samuel Sarah', 'Pharmacist', '10', '2024-10-23', 'Tsh.25000.00'],
+          ['Adrian Smith', 'PharmTech.', '5', '2024-10-22', 'Tsh.1000.00'],
         ];
         break;
 
@@ -145,7 +145,6 @@ const Reports: React.FC = () => {
               Start Date
             </label>
             <input
-              placeholder='StarDate'
               type="date"
               id="start-date"
               value={startDate}

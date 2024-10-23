@@ -19,8 +19,8 @@ const EmployeeManagement: React.FC = () => {
   useEffect(() => {
     // Fetch employees from API or local storage
     const mockEmployees: Employee[] = [
-      { id: 1, name: 'John Doe', role: 'Pharmacist', username: 'john' },
-      { id: 2, name: 'Jane Smith', role: 'Cashier', username: 'jane' },
+      { id: 1, name: 'Samuel Sarah', role: 'Pharmacist', username: 'sam' },
+      { id: 2, name: 'Adrian Smith', role: 'Cashier', username: 'adrian' },
     ];
     setEmployees(mockEmployees);
   }, []);

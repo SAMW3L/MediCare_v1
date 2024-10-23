@@ -126,7 +126,7 @@ const Sales: React.FC = () => {
 
   return (
     <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-      <h1 className="text-3xl font-bold text-gray-900 mb-6">Sales</h1>
+      <h1 className="text-3xl font-bold text-green-900 mb-6">Dispensing</h1>
       {message && (
         <div className="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-4">
           {message}
@@ -141,7 +141,7 @@ const Sales: React.FC = () => {
               onChange={(e) => setSelectedMedicine(Number(e.target.value))}
               className="w-full p-2 border rounded"
             >
-              <option value="">Select Medicine</option>
+               <option value="">Select Medicine</option>  {/*add a filter to fetch all medicine in database by medicine name and price */}
               {medicines.map((medicine) => (
                 <option key={medicine.id} value={medicine.id}>
                   {medicine.name} - Tsh.{medicine.price.toFixed(2)}

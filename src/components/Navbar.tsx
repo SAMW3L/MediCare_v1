@@ -18,7 +18,7 @@ const Navbar: React.FC = () => {
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
             <div className="flex-shrink-0">
-              <span className="text-white font-bold text-lg">PharmaSystem</span>
+              <span className="text-white font-bold text-lg">Above Average</span>
             </div>
             <div className="hidden md:block">
               <div className="ml-10 flex items-baseline space-x-4">
@@ -27,7 +27,7 @@ const Navbar: React.FC = () => {
                   <NavLink to="/employees" icon={<Users className="w-5 h-5 mr-1" />} text="Employees" />
                 )}
                 <NavLink to="/medicines" icon={<Pill className="w-5 h-5 mr-1" />} text="Medicines" />
-                <NavLink to="/sales" icon={<ShoppingCart className="w-5 h-5 mr-1" />} text="Sales" />
+                <NavLink to="/sales" icon={<ShoppingCart className="w-5 h-5 mr-1" />} text="Dispensing" />
                 <NavLink to="/reports" icon={<FileText className="w-5 h-5 mr-1" />} text="Reports" />
               </div>
             </div>
