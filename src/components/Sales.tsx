@@ -85,39 +85,42 @@ const Sales: React.FC = () => {
     });
 
     // Title
+  
+    // Title and date
     doc.text('Receipt', 14, 20);
     doc.text(`Date: ${formattedDate}`, 14, 30);
     doc.text('Items:', 14, 40);
 
     let y = 50; // Initial Y position for items
 
-    // Check if the cart is empty
-    if (cart.length === 0) {
-      doc.text('No items in cart.', 14, y);
-    } else {
-      cart.forEach(item => {
+    // Loop through cart items and add to the receipt
+    cart.forEach((item) => {
         doc.text(`${item.name} x ${item.quantity}: Tsh.${item.total.toFixed(2)}`, 14, y);
         y += 10; // Move Y position for next item
-      });
-    }
+    });
 
-    // Calculate total
+    // Calculate and display total
     const total = cart.reduce((sum, item) => sum + item.total, 0);
+    y += 10;
     doc.text(`Total: Tsh.${total.toFixed(2)}`, 14, y);
-    y += 10; // Move down for "Payment Method"
 
+    // Payment method
+    y += 10;
     doc.text(`Payment Method: ${paymentMethod}`, 14, y);
 
-    y += 20; // Extra space before "Medicine Dose"
+    // Section for Medicine Dose explanation
+    y += 20;
     doc.text('Medicine Dose:', 14, y);
-    y += 10; // Move Y position for input line
+    y += 10;
     doc.line(14, y, 200, y); // Draw a line for the dose explanation
 
-    y += 20; // Move down for "Welcome back"
+    // "Welcome back" text at the bottom
+    y += 20;
     doc.text('Welcome back', 14, y);
 
-    doc.save('receipt.pdf'); // Save the PDF
-  };
+    // Save the PDF
+    doc.save('receipt.pdf');
+};
 
   const total = cart.reduce((sum, item) => sum + item.total, 0);
 

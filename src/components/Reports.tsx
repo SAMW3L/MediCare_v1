@@ -12,6 +12,8 @@ interface ReportData {
 const Reports: React.FC = () => {
   const [reportType, setReportType] = useState<string>('sales');
   const [dateRange, setDateRange] = useState<string>('daily');
+  const [startDate, setStartDate] = useState<string>('');
+  const [endDate, setEndDate] = useState<string>('');
   const [reportData, setReportData] = useState<ReportData | null>(null);
 
   // Mocked sales data
@@ -19,7 +21,6 @@ const Reports: React.FC = () => {
     { itemName: 'Paracetamol', quantity: 5, amount: 25.0 },
     { itemName: 'Ibuprofen', quantity: 3, amount: 15.0 },
     { itemName: 'Amoxicillin', quantity: 2, amount: 30.0 },
-    // Add more sales data as needed
   ];
 
   const handleGenerateReport = () => {
@@ -36,12 +37,12 @@ const Reports: React.FC = () => {
 
         // Populate rows from sales data
         salesData.forEach((sale) => {
-          data.push([sale.itemName, sale.quantity.toString(), `$${sale.amount.toFixed(2)}`]);
+          data.push([sale.itemName, sale.quantity.toString(), `Tsh. ${sale.amount.toFixed(2)}`]);
           totalAmount += sale.amount;
         });
 
         // Add total amount row
-        data.push(['', 'Total', `$${totalAmount.toFixed(2)}`]);
+        data.push(['', 'Total', `Tsh. ${totalAmount.toFixed(2)}`]);
         break;
 
       case 'inventory':
@@ -50,7 +51,6 @@ const Reports: React.FC = () => {
           ['Name', 'Batch Number', 'Expiry Date', 'Price', 'Quantity'],
           ['Paracetamol', 'BN123', '2025-01-01', '5.99', '100'],
           ['Amoxicillin', 'BN456', '2024-05-01', '12.50', '50'],
-          // Add more data as needed
         ];
         break;
 
@@ -58,9 +58,8 @@ const Reports: React.FC = () => {
         title = 'Employee Collection Report';
         data = [
           ['Employee Name', 'Number of Transactions', 'Date', 'Amount Collected'],
-          ['John Doe', '10', '2024-10-23', '$250'],
-          ['Jane Smith', '5', '2024-10-22', '$100'],
-          // Add more data as needed
+          ['John Doe', '10', '2024-10-23', 'Tsh.250'],
+          ['Jane Smith', '5', '2024-10-22', 'Tsh.100'],
         ];
         break;
 
@@ -70,7 +69,6 @@ const Reports: React.FC = () => {
           ['Item Name', 'Initial Balance', 'Sold Quantity', 'Remaining Quantity'],
           ['Paracetamol', '100', '30', '70'],
           ['Amoxicillin', '50', '10', '40'],
-          // Add more data as needed
         ];
         break;
 
@@ -118,7 +116,7 @@ const Reports: React.FC = () => {
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           >
             <option value="sales">Sales Report</option>
-            <option value="inventory">Inventory Report</option>
+            <option value="inventory">Medicine Stock Report</option>
             <option value="employee">Employee Collection Report</option>
             <option value="dispensed">Dispensed Medicine Report</option>
           </select>
@@ -139,6 +137,34 @@ const Reports: React.FC = () => {
             <option value="custom">Custom</option>
           </select>
         </div>
+
+        {/* Display date inputs only when "Custom" is selected */}
+        {dateRange === 'custom' && (
+          <div className="mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="start-date">
+              Start Date
+            </label>
+            <input
+              placeholder='StarDate'
+              type="date"
+              id="start-date"
+              value={startDate}
+              onChange={(e) => setStartDate(e.target.value)}
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            />
+            <label className="block text-gray-700 text-sm font-bold mb-2 mt-4" htmlFor="end-date">
+              End Date
+            </label>
+            <input
+              type="date"
+              id="end-date"
+              value={endDate}
+              onChange={(e) => setEndDate(e.target.value)}
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            />
+          </div>
+        )}
+
         <div className="flex items-center justify-between">
           <button
             onClick={handleGenerateReport}
