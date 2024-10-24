@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Home, Users, Pill, ShoppingCart, FileText, LogOut } from 'lucide-react';
 import { useUser } from '../contexts/UserContext';
@@ -6,6 +6,23 @@ import { useUser } from '../contexts/UserContext';
 const Navbar: React.FC = () => {
   const { user, logout } = useUser();
   const navigate = useNavigate();
+
+  const [currentDate, setCurrentDate] = useState<string>('');
+  
+  const [currentTime, setCurrentTime] = useState<string>('');
+
+  useEffect(() => {
+    const updateDateTime = () => {
+      const now = new Date();
+      setCurrentDate(now.toLocaleDateString()); // Update the date format as needed
+      setCurrentTime(now.toLocaleTimeString()); // Update the time format as needed
+    };
+
+    updateDateTime(); // Set initial date and time
+    const intervalId = setInterval(updateDateTime, 1000); // Update every second
+
+    return () => clearInterval(intervalId); // Cleanup on component unmount
+  }, []);
 
   const handleLogout = () => {
     logout();
@@ -18,7 +35,12 @@ const Navbar: React.FC = () => {
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
             <div className="flex-shrink-0">
-              <span className="text-white font-bold text-lg">Above Average</span>
+              <span className="text-white font-bold text-lg">MediCare</span>
+              <div className="text-white text-sm">
+                <span>{currentDate}</span>
+              
+                <span>{currentTime}</span>
+              </div>
             </div>
             <div className="hidden md:block">
               <div className="ml-10 flex items-baseline space-x-4">
@@ -27,7 +49,7 @@ const Navbar: React.FC = () => {
                   <NavLink to="/employees" icon={<Users className="w-5 h-5 mr-1" />} text="Employees" />
                 )}
                 <NavLink to="/medicines" icon={<Pill className="w-5 h-5 mr-1" />} text="Medicines" />
-                <NavLink to="/sales" icon={<ShoppingCart className="w-5 h-5 mr-1" />} text="Dispensing" />
+                <NavLink to="/sales" icon={<ShoppingCart className="w-5 h-5 mr-1" />} text="Sales" />
                 <NavLink to="/reports" icon={<FileText className="w-5 h-5 mr-1" />} text="Reports" />
               </div>
             </div>
