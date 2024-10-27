@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Home, Users, Pill, ShoppingCart, FileText, LogOut } from 'lucide-react';
+import { Home, Users, Pill, FileText, LogOut, ShoppingCartIcon } from 'lucide-react';
 import { useUser } from '../contexts/UserContext';
 
 const Navbar: React.FC = () => {
@@ -35,11 +35,11 @@ const Navbar: React.FC = () => {
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
             <div className="flex-shrink-0">
-              <span className="text-white font-bold text-lg">MediCare</span>
+              <span className="text-white font-bold text-lg">Above Average</span>
               <div className="text-white text-sm">
                 <span>{currentDate}</span>
               
-                <span>{currentTime}</span>
+              [ <span>{currentTime}</span>]
               </div>
             </div>
             <div className="hidden md:block">
@@ -49,7 +49,7 @@ const Navbar: React.FC = () => {
                   <NavLink to="/employees" icon={<Users className="w-5 h-5 mr-1" />} text="Employees" />
                 )}
                 <NavLink to="/medicines" icon={<Pill className="w-5 h-5 mr-1" />} text="Medicines" />
-                <NavLink to="/sales" icon={<ShoppingCart className="w-5 h-5 mr-1" />} text="Sales" />
+                <NavLink to="/sales" icon={<ShoppingCartIcon className="w-5 h-5 mr-1" />} text="Dispensing" />
                 <NavLink to="/reports" icon={<FileText className="w-5 h-5 mr-1" />} text="Reports" />
               </div>
             </div>
@@ -58,9 +58,9 @@ const Navbar: React.FC = () => {
             <div className="ml-4 flex items-center md:ml-6">
               <button
                 onClick={handleLogout}
-                className="bg-indigo-700 p-1 rounded-full text-indigo-200 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-indigo-600 focus:ring-white"
-              >
-                <LogOut className="h-6 w-6" aria-hidden="true" />
+                className="bg-red-700 p-1 rounded-full text-indigo-200 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-indigo-600 focus:ring-white"
+              >Logout
+                {/* <LogOut className="h-3 w-6" aria-hidden="true" /> */}
               </button>
             </div>
           </div>

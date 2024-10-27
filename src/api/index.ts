@@ -26,27 +26,85 @@ export const api = {
     }).then(res => res.json()),
 
   // Medicines
-  getMedicines: async () =>
-    fetch(`${API_URL}/medicines`).then(res => res.json()),
+  getMedicines: async () => {
+    try {
+      const response = await fetch(`${API_URL}/medicines`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch medicines');
+      }
+      return response.json();
+    } catch (error) {
+      console.error(error); // Log the error for debugging
+      throw error; // Rethrow error for handling in the component
+    }
+  },
   
-  addMedicine: async (medicine: any) =>
-    fetch(`${API_URL}/medicines`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(medicine),
-    }).then(res => res.json()),
+  addMedicine: async (medicine: any) => {
+    try {
+      const response = await fetch(`${API_URL}/medicines`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(medicine),
+      });
+      if (!response.ok) {
+        throw new Error('Failed to add medicine');
+      }
+      return response.json();
+    } catch (error) {
+      console.error(error);
+      throw error; // Rethrow error for handling in the component
+    }
+  },
   
-  updateMedicine: async (id: number, medicine: any) =>
-    fetch(`${API_URL}/medicines/${id}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(medicine),
-    }).then(res => res.json()),
+  updateMedicine: async (id: number, medicine: any) => {
+    try {
+      const response = await fetch(`${API_URL}/medicines/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(medicine),
+      });
+      if (!response.ok) {
+        throw new Error('Failed to update medicine');
+      }
+      return response.json();
+    } catch (error) {
+      console.error(error);
+      throw error; // Rethrow error for handling in the component
+    }
+  },
+
+  // New function to update medicine quantity
+  updateMedicineQuantity: async (id: number, newQuantity: number) => {
+    try {
+      const response = await fetch(`${API_URL}/medicines/${id}/quantity`, {
+        method: 'PATCH', // Using PATCH to update only the quantity field
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ quantity: newQuantity }),
+      });
+      if (!response.ok) {
+        throw new Error('Failed to update medicine quantity');
+      }
+      return response.json();
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  },
   
-  deleteMedicine: async (id: number) =>
-    fetch(`${API_URL}/medicines/${id}`, {
-      method: 'DELETE',
-    }).then(res => res.json()),
+  deleteMedicine: async (id: number) => {
+    try {
+      const response = await fetch(`${API_URL}/medicines/${id}`, {
+        method: 'DELETE',
+      });
+      if (!response.ok) {
+        throw new Error('Failed to delete medicine');
+      }
+      return response.json();
+    } catch (error) {
+      console.error(error);
+      throw error; // Rethrow error for handling in the component
+    }
+  },
 
   // Sales
   getSales: async (startDate?: string, endDate?: string) => {
@@ -56,12 +114,22 @@ export const api = {
     return fetch(`${API_URL}/sales?${params}`).then(res => res.json());
   },
   
-  addSale: async (sale: any) =>
-    fetch(`${API_URL}/sales`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(sale),
-    }).then(res => res.json()),
+  addSale: async (sale: any) => {
+    try {
+      const response = await fetch(`${API_URL}/sales`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(sale),
+      });
+      if (!response.ok) {
+        throw new Error('Failed to add sale');
+      }
+      return response.json();
+    } catch (error) {
+      console.error(error);
+      throw error; // Rethrow error for handling in the component
+    }
+  },
 
   // Reports
   getReport: async (type: string, startDate?: string, endDate?: string) => {

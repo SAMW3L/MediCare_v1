@@ -29,7 +29,7 @@ const Dashboard: React.FC = () => {
         <DashboardCard
           to="/sales"
           icon={<ShoppingCart className="h-6 w-6 text-white" />}
-          title="Sales"
+          title="Dispensing"
           description="Process transactions"
           color="bg-yellow-500"
         />

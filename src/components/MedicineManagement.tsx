@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Plus, Edit, Trash } from 'lucide-react';
-import { api } from '../api';
-import { Medicine } from '../types';
+import { Plus, Edit, Trash, CheckCircle, XCircle } from 'lucide-react';
+import { api } from '../api'; // Ensure your API helper methods are correctly set up
+import { Medicine } from '../types'; // Import Medicine type
 
 const MedicineManagement: React.FC = () => {
   const [medicines, setMedicines] = useState<Medicine[]>([]);
@@ -15,76 +15,106 @@ const MedicineManagement: React.FC = () => {
     quantity: 0
   });
   const [editingMedicine, setEditingMedicine] = useState<Medicine | null>(null);
-  const [error, setError] = useState<string>('');
+  const [message, setMessage] = useState<{ type: 'success' | 'error'; content: string } | null>(null);
 
+  // Fetch medicines from the database when component mounts
   useEffect(() => {
     loadMedicines();
   }, []);
 
+  // Function to load all medicines from the database
   const loadMedicines = async () => {
     try {
       const data = await api.getMedicines();
       setMedicines(data);
+      showMessage('success', 'Medicines loaded successfully');
     } catch (err) {
-      setError('Failed to load medicines');
+      showMessage('error', 'Failed to load medicines');
     }
   };
 
+  // Function to add a new medicine
   const handleAddMedicine = async () => {
     try {
       await api.addMedicine(newMedicine);
       await loadMedicines();
       resetForm();
+      showMessage('success', 'Medicine added successfully');
     } catch (err) {
-      setError('Failed to add medicine');
+      showMessage('error', 'Failed to add medicine');
     }
   };
 
+  // Function to update a selected medicine
+  const handleUpdateMedicine = async () => {
+    if (editingMedicine) {
+      try {
+        console.log('Updating medicine:', editingMedicine.id, newMedicine); // Debug log
+        await api.updateMedicine(editingMedicine.id, newMedicine); // Update medicine by ID
+        await loadMedicines(); // Reload medicines
+        resetForm(); // Reset form after updating
+        showMessage('success', 'Medicine updated successfully');
+      } catch (err) {
+        console.error('Error updating medicine:', err); // Log error
+        showMessage('error', 'Failed to update medicine');
+      }
+    }
+  };
+
+  // Function to delete a selected medicine
+  const handleDeleteMedicine = async (id: number) => {
+    try {
+      console.log('Deleting medicine ID:', id); // Debug log
+      await api.deleteMedicine(id); // Delete medicine by ID
+      await loadMedicines(); // Reload medicines
+      showMessage('success', 'Medicine deleted successfully');
+    } catch (err) {
+      console.error('Error deleting medicine:', err); // Log error
+      showMessage('error', 'Failed to delete medicine');
+    }
+  };
+
+  // Function to handle editing a medicine
   const handleEditMedicine = (medicine: Medicine) => {
     setEditingMedicine(medicine);
     setNewMedicine({ ...medicine });
     setIsEditing(true);
   };
 
-  const handleUpdateMedicine = async () => {
-    if (editingMedicine) {
-      try {
-        await api.updateMedicine(editingMedicine.id, newMedicine);
-        await loadMedicines();
-        resetForm();
-      } catch (err) {
-        setError('Failed to update medicine');
-      }
-    }
-  };
-
-  const handleDeleteMedicine = async (id: number) => {
-    try {
-      await api.deleteMedicine(id);
-      await loadMedicines();
-    } catch (err) {
-      setError('Failed to delete medicine');
-    }
-  };
-
+  // Reset the form and editing state
   const resetForm = () => {
     setIsAddingMedicine(false);
     setIsEditing(false);
     setNewMedicine({ name: '', manufacturer: '', expiryDate: '', price: 0, quantity: 0 });
     setEditingMedicine(null);
-    setError('');
+    setMessage(null);
+  };
+
+  // Function to show success/error messages
+  const showMessage = (type: 'success' | 'error', content: string) => {
+    setMessage({ type, content });
+    setTimeout(() => {
+      setMessage(null);
+    }, 3000);
   };
 
   return (
     <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
       <h1 className="text-3xl font-bold text-gray-900 mb-6">Medicine Management</h1>
-      
-      {error && (
-        <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4">
-          {error}
+
+      {/* Notification for success/error messages */}
+      {message && (
+        <div
+          className={`mb-4 p-4 rounded ${
+            message.type === 'success' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
+          } flex items-center`}
+        >
+          {message.type === 'success' ? <CheckCircle className="mr-2" /> : <XCircle className="mr-2" />}
+          <span>{message.content}</span>
         </div>
       )}
 
+      {/* Add Medicine Button */}
       <div className="mb-4">
         <button
           onClick={() => setIsAddingMedicine(true)}
@@ -94,6 +124,7 @@ const MedicineManagement: React.FC = () => {
         </button>
       </div>
 
+      {/* Medicine Form for Adding or Editing */}
       {(isAddingMedicine || isEditing) && (
         <div className="mb-4 p-4 bg-gray-100 rounded">
           <h2 className="text-xl font-bold mb-2">
@@ -146,6 +177,7 @@ const MedicineManagement: React.FC = () => {
         </div>
       )}
 
+      {/* Medicines List Table */}
       <div className="bg-white shadow overflow-hidden sm:rounded-lg">
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-50">
